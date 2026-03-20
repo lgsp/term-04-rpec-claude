@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Représentations paramétriques &amp; Équations cartésiennes — Terminale Spécialité</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=Nunito:wght@300;400;600;700&family=Inconsolata:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+:root {
+  --bg:      #191c22;
+  --bg2:     #1f232b;
+  --bg3:     #262b35;
+  --card:    #242830;
+  --card2:   #2c3140;
+  --copper:  #c8744a;
+  --copper2: #e8a080;
+  --copper3: #3d2218;
+  --sand:    #e8dcc8;
+  --sand2:   #b8a990;
+  --sand3:   #2a261e;
+  --teal:    #4db6ac;
+  --teal2:   #1a3d3a;
+  --violet:  #9c7de0;
+  --violet2: #2a2040;
+  --gold:    #d4a840;
+  --gold2:   #2d2510;
+  --rust:    #c0403a;
+  --rust2:   #3a1210;
+  --border:  #32374a;
+  --ink:     #e8e4dc;
+  --ink2:    #a8a49c;
+  --ink3:    #5a5862;
+  --r: 10px;
+  --sh: 0 4px 24px rgba(0,0,0,0.3);
+  --font-h: 'Fraunces', Georgia, serif;
+  --font-b: 'Nunito', sans-serif;
+  --font-m: 'Inconsolata', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-b); font-size: 16px; line-height: 1.75; }
+
+/* ── HEADER ── */
+header {
+  background: linear-gradient(160deg, #1a1006 0%, #2a1a0a 40%, #1a1c22 100%);
+  padding: 4rem 2rem 3.2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--copper3);
+}
+header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200,116,74,0.18) 0%, transparent 65%),
+    repeating-linear-gradient(45deg, transparent, transparent 29px, rgba(200,116,74,0.03) 30px);
+  pointer-events: none;
+}
+.badge {
+  display: inline-block;
+  font-family: var(--font-m); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--copper2);
+  border: 1px solid var(--copper3); border-radius: 20px;
+  padding: 0.3em 1.1em; margin-bottom: 1.3rem;
+  background: rgba(200,116,74,0.07);
+}
+h1 {
+  font-family: var(--font-h);
+  font-size: clamp(1.9rem, 5vw, 3.3rem);
+  font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; color: var(--sand);
+}
+h1 em { font-style: italic; color: var(--copper2); }
+.subtitle { font-size: 0.95rem; color: var(--ink3); margin-top: 0.7rem; font-style: italic; }
+.official-link {
+  display: inline-flex; align-items: center; gap: 0.45em;
+  margin-top: 1.2rem; font-family: var(--font-m); font-size: 0.77rem;
+  color: var(--copper); text-decoration: none;
+  border-bottom: 1px dashed rgba(200,116,74,0.4); padding-bottom: 1px;
+  transition: color 0.2s;
+}
+.official-link:hover { color: var(--copper2); }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(25,28,34,0.97); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-inner { display: flex; padding: 0 1.2rem; min-width: max-content; }
+nav a {
+  display: flex; align-items: center; gap: 0.4em;
+  padding: 0.72rem 0.95rem;
+  font-family: var(--font-m); font-size: 0.67rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink3); text-decoration: none;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+nav a:hover, nav a.active { color: var(--copper2); border-color: var(--copper); }
+.nav-num { font-size: 0.55rem; opacity: 0.4; }
+
+/* ── MAIN ── */
+main { max-width: 920px; margin: 0 auto; padding: 0 1.5rem 7rem; }
+section {
+  padding-top: 5rem;
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+section.visible { opacity: 1; transform: none; }
+
+.sec-hd {
+  display: flex; align-items: baseline; gap: 1rem;
+  margin-bottom: 2rem; padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.sec-hd::after {
+  content: ''; position: absolute; bottom: -1px; left: 0;
+  width: 60px; height: 2px; background: var(--copper);
+}
+.sec-num { font-family: var(--font-m); font-size: 0.6rem; color: var(--copper); letter-spacing: 0.1em; flex-shrink: 0; }
+h2 { font-family: var(--font-h); font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 700; color: var(--sand); letter-spacing: -0.01em; }
+h3 { font-family: var(--font-h); font-size: 1.07rem; font-weight: 700; color: var(--copper2); margin: 2rem 0 0.65rem; }
+p { margin-bottom: 0.9rem; color: var(--ink2); }
+li { margin-bottom: 0.3rem; color: var(--ink2); }
+
+/* ── BLOCKS ── */
+.block {
+  border-left: 3px solid; border-radius: 0 var(--r) var(--r) 0;
+  padding: 1.1rem 1.4rem; margin: 1.1rem 0; position: relative;
+}
+.block::before {
+  content: attr(data-label);
+  position: absolute; top: -0.6rem; left: 1rem;
+  font-family: var(--font-m); font-size: 0.56rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.18em 0.6em; border-radius: 3px; color: var(--bg);
+}
+.block.def  { border-color: var(--copper);  background: var(--copper3); }
+.block.def::before  { background: var(--copper); }
+.block.thm  { border-color: var(--teal);    background: var(--teal2); }
+.block.thm::before  { background: var(--teal); color: #fff; }
+.block.demo { border-color: var(--violet);  background: var(--violet2); }
+.block.demo::before { background: var(--violet); color: #fff; }
+.block.cap  { border-color: var(--gold);    background: var(--gold2); }
+.block.cap::before  { background: var(--gold); }
+.block.warn { border-color: var(--rust);    background: var(--rust2); }
+.block.warn::before { background: var(--rust); color: #fff; }
+
+details { margin: 0.8rem 0; }
+summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-m); font-size: 0.77rem; font-weight: 600;
+  color: var(--violet); padding: 0.5rem 0; user-select: none; transition: color 0.2s;
+}
+summary:hover { color: var(--copper2); }
+summary::before { content: '▶'; font-size: 0.54rem; transition: transform 0.2s; }
+details[open] summary::before { transform: rotate(90deg); }
+.proof-body {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1rem 1.4rem;
+  margin-top: 0.4rem; font-size: 0.9rem; color: var(--ink2);
+}
+
+/* ── TABLES ── */
+.tbl-w { overflow-x: auto; margin: 1rem 0; border-radius: var(--r); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+thead tr { background: var(--bg3); }
+th { padding: 0.65rem 0.9rem; font-family: var(--font-m); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--copper); font-weight: 600; text-align: left; border-bottom: 1px solid var(--border); }
+td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--ink2); }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+/* ── INTERACTIVE ── */
+.calc {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1.3rem 1.5rem; margin: 1.2rem 0; box-shadow: var(--sh);
+}
+.calc-title {
+  font-family: var(--font-m); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5em;
+}
+.calc-title::before { content: '◈'; font-size: 0.72rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; margin-bottom: 0.8rem; }
+.controls label { font-size: 0.82rem; color: var(--ink2); display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-m); }
+.controls input[type=number], .controls select {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 5px;
+  color: var(--ink); padding: 0.28rem 0.45rem;
+  font-family: var(--font-m); font-size: 0.82rem; width: 65px;
+  transition: border-color 0.15s;
+}
+.controls select { width: auto; }
+.controls input:focus, .controls select:focus { outline: none; border-color: var(--copper); }
+.result-box {
+  background: var(--bg2); border-radius: 7px; padding: 0.75rem 1rem;
+  font-family: var(--font-m); font-size: 0.85rem; color: var(--copper2);
+  border: 1px solid var(--border); margin-top: 0.55rem; min-height: 2.4rem; line-height: 1.6;
+}
+
+/* ── CANVAS VIEWER ── */
+.viz-wrap {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden; margin: 1.2rem 0; box-shadow: var(--sh);
+}
+.viz-bar {
+  background: var(--bg3); padding: 0.5rem 1rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-m); font-size: 0.62rem; color: var(--ink3); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.btn-v {
+  cursor: pointer; background: var(--bg2); color: var(--ink2); border: 1px solid var(--border);
+  border-radius: 5px; padding: 0.27rem 0.65rem; font-family: var(--font-m); font-size: 0.68rem; font-weight: 600;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-v:hover { background: var(--copper3); color: var(--copper2); border-color: var(--copper); }
+.btn-v.on { background: var(--copper); color: var(--bg); border-color: var(--copper); }
+canvas { display: block; width: 100%; cursor: grab; }
+canvas:active { cursor: grabbing; }
+
+/* ── PYTHON ── */
+.py-block {
+  background: #111318; border: 1px solid #22263a;
+  border-radius: var(--r); margin: 1.2rem 0; overflow: hidden; box-shadow: var(--sh);
+}
+.py-hd {
+  background: #0d0f14; display: flex; align-items: center; justify-content: space-between;
+  padding: 0.55rem 1rem; border-bottom: 1px solid #22263a; flex-wrap: wrap; gap: 0.4rem;
+}
+.py-dots { display: flex; gap: 5px; align-items: center; }
+.py-dot { width: 9px; height: 9px; border-radius: 50%; }
+.py-dot.r{background:#ff5f57;}.py-dot.y{background:#febc2e;}.py-dot.g{background:#28c840;}
+.py-meta { display: flex; align-items: center; gap: 0.55rem; margin-left: 0.5rem; }
+.py-title { font-family: var(--font-m); font-size: 0.7rem; color: #5a6090; }
+.py-badge { font-family: var(--font-m); font-size: 0.56rem; color: #4a5070; border: 1px solid #22263a; border-radius: 3px; padding: 0.12em 0.45em; text-transform: uppercase; letter-spacing: 0.07em; }
+.py-acts { display: flex; gap: 0.35rem; }
+.btn-run { background: rgba(40,200,64,0.12); color: #28c840; border: 1px solid rgba(40,200,64,0.3); border-radius: 5px; padding: 0.27rem 0.65rem; font-family: var(--font-m); font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-run:hover { background: rgba(40,200,64,0.25); }
+.btn-dl  { background: rgba(200,116,74,0.1); color: var(--copper2); border: 1px solid rgba(200,116,74,0.25); border-radius: 5px; padding: 0.27rem 0.65rem; font-family: var(--font-m); font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-dl:hover  { background: rgba(200,116,74,0.22); }
+.btn-rst { background: rgba(255,95,87,0.1); color: #ff5f57; border: 1px solid rgba(255,95,87,0.25); border-radius: 5px; padding: 0.27rem 0.65rem; font-family: var(--font-m); font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-rst:hover { background: rgba(255,95,87,0.22); }
+textarea.py-code {
+  display: block; width: 100%; background: transparent; border: none; outline: none;
+  color: #cdd6f4; font-family: var(--font-m); font-size: 0.8rem; line-height: 1.65;
+  padding: 1rem 1.2rem; resize: vertical; min-height: 180px; tab-size: 4; white-space: pre; overflow-x: auto;
+}
+.py-out {
+  border-top: 1px solid #22263a; padding: 0.75rem 1.2rem;
+  font-family: var(--font-m); font-size: 0.78rem; color: #a6e3a1;
+  min-height: 2.3rem; white-space: pre-wrap; display: none;
+}
+.py-out.active { display: block; }
+.py-out.error  { color: #f38ba8; }
+
+/* ── QCM ── */
+.qcm-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.4rem; }
+.chrono { display: flex; align-items: center; gap: 0.65rem; background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 0.45rem 0.9rem; }
+.chrono-d { font-family: var(--font-m); font-size: 1.05rem; font-weight: 600; color: var(--copper); min-width: 4ch; }
+.score-v { font-family: var(--font-m); font-weight: 700; color: var(--teal); }
+.qcm-q { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.3rem 1.5rem; margin-bottom: 1.1rem; box-shadow: var(--sh); transition: border-color 0.3s; }
+.qcm-q.correct { border-color: var(--teal); }
+.qcm-q.wrong   { border-color: var(--rust); }
+.qcm-question  { font-size: 0.93rem; font-weight: 700; color: var(--sand); margin-bottom: 0.9rem; font-family: var(--font-h); }
+.qcm-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.qcm-opt {
+  cursor: pointer; display: flex; align-items: center; gap: 0.65rem;
+  padding: 0.55rem 0.85rem; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--bg2);
+  font-size: 0.87rem; color: var(--ink2); transition: background 0.12s, border-color 0.12s;
+}
+.qcm-opt:hover:not(.disabled) { background: var(--copper3); border-color: var(--copper); color: var(--copper2); }
+.qcm-opt.selected { background: var(--copper3); border-color: var(--copper); color: var(--copper2); }
+.qcm-opt.correct  { background: var(--teal2);   border-color: var(--teal);   color: var(--teal); }
+.qcm-opt.wrong    { background: var(--rust2);    border-color: var(--rust);   color: var(--rust); }
+.qcm-opt.disabled { pointer-events: none; }
+.opt-l { font-family: var(--font-m); font-size: 0.66rem; font-weight: 700; width: 1.5em; height: 1.5em; display: flex; align-items: center; justify-content: center; background: var(--border); border-radius: 3px; flex-shrink: 0; }
+.qcm-fb { margin-top: 0.65rem; font-size: 0.82rem; color: var(--ink2); padding: 0.5rem 0.75rem; border-radius: 6px; background: var(--bg3); display: none; font-style: italic; }
+.qcm-fb.active { display: block; }
+.qcm-acts { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.4rem; }
+.btn-p { cursor: pointer; background: var(--copper); color: var(--bg); border: none; border-radius: 7px; padding: 0.6rem 1.4rem; font-family: var(--font-m); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; transition: background 0.15s, transform 0.1s; }
+.btn-p:hover { background: var(--copper2); transform: translateY(-1px); }
+.btn-s { cursor: pointer; background: var(--bg2); color: var(--ink2); border: 1px solid var(--border); border-radius: 7px; padding: 0.6rem 1.2rem; font-family: var(--font-m); font-size: 0.78rem; transition: background 0.15s; }
+.btn-s:hover { background: var(--bg3); }
+.qcm-res { background: var(--card2); border: 1px solid var(--copper3); border-radius: var(--r); padding: 1.5rem; text-align: center; display: none; margin-top: 1.4rem; }
+.qcm-res.active { display: block; }
+.res-sc { font-family: var(--font-h); font-size: 2.3rem; font-weight: 900; color: var(--copper2); }
+.res-msg { color: var(--ink2); margin-top: 0.5rem; font-style: italic; }
+
+/* ── CONTACT ── */
+.cg { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 1rem; margin-top: 1.4rem; }
+.cc { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.3rem; text-align: center; text-decoration: none; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; display: block; }
+.cc:hover { border-color: var(--copper); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
+.cc img { width: 100px; height: 100px; border-radius: 7px; margin-bottom: 0.75rem; }
+.cc-t { font-size: 0.88rem; font-weight: 700; font-family: var(--font-h); color: var(--sand); margin-bottom: 0.25rem; }
+.cc-s { font-size: 0.76rem; color: var(--ink3); font-style: italic; }
+.cc-l { font-size: 0.72rem; font-family: var(--font-m); color: var(--copper); margin-top: 0.4rem; display: block; }
+
+#py-status { position: fixed; bottom: 1.2rem; right: 1.2rem; background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 0.42rem 0.85rem; font-family: var(--font-m); font-size: 0.68rem; color: var(--ink3); z-index: 200; box-shadow: var(--sh); transition: opacity 0.5s; }
+#py-status.ready  { color: var(--teal); }
+#py-status.hidden { opacity: 0; pointer-events: none; }
+.hl   { color: var(--copper2); font-weight: 600; }
+.hl-t { color: var(--teal);    font-weight: 600; }
+.hl-v { color: var(--violet);  font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div id="py-status">⏳ Python — en attente</div>
+
+<header>
+  <div class="badge">Terminale · Spécialité Mathématiques · Algèbre &amp; Géométrie</div>
+  <h1>Représentations <em>paramétriques</em><br>et équations cartésiennes</h1>
+  <p class="subtitle">Droites · Plans · Conversions · Positions relatives · Intersection · Angle</p>
+  <a class="official-link"
+     href="https://eduscol.education.gouv.fr/sites/default/files/document/spe246annexe1158907pdf-84159.pdf"
+     target="_blank" rel="noopener">
+    📄 Programme officiel Éduscol — Spécialité Terminale (p. 9) ↗
+  </a>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#rappels"><span class="nav-num">01</span> Rappels</a>
+    <a href="#droites"><span class="nav-num">02</span> Droites</a>
+    <a href="#plans"><span class="nav-num">03</span> Plans</a>
+    <a href="#conversions"><span class="nav-num">04</span> Conversions</a>
+    <a href="#positions"><span class="nav-num">05</span> Positions relatives</a>
+    <a href="#angles"><span class="nav-num">06</span> Angles</a>
+    <a href="#demo"><span class="nav-num">07</span> Démonstrations</a>
+    <a href="#python"><span class="nav-num">08</span> Python</a>
+    <a href="#qcm"><span class="nav-num">09</span> QCM</a>
+    <a href="#contact"><span class="nav-num">10</span> Contact</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════ 01 RAPPELS ══════════ -->
+<section id="rappels">
+  <div class="sec-hd"><span class="sec-num">01</span><h2>Rappels &amp; programme</h2></div>
+
+  <p>Cette rubrique du programme (p. 9) approfondit la manipulation des représentations paramétriques et des équations cartésiennes des droites et des plans dans l'espace, et leur utilisation pour résoudre des problèmes de positions relatives, d'intersections et d'angles.</p>
+
+  <div class="block cap" data-label="Capacités attendues — programme p. 9">
+    <p>✦ Passer d'une représentation paramétrique à une équation cartésienne d'un plan (et réciproquement).</p>
+    <p>✦ Déterminer une représentation paramétrique d'une droite à partir de deux points ou d'un point et d'un vecteur directeur.</p>
+    <p>✦ Étudier les positions relatives de deux droites, d'une droite et d'un plan, de deux plans.</p>
+    <p>✦ Calculer l'angle entre deux droites, entre une droite et un plan, entre deux plans.</p>
+    <p style="margin:0">✦ Résoudre des problèmes de géométrie dans l'espace à l'aide de coordonnées.</p>
+  </div>
+
+  <div class="block warn" data-label="Synthèse des objets">
+    <p>• <strong>Droite</strong> dans l'espace : <span class="hl">représentation paramétrique</span> (1 paramètre \(t\)), <em>pas</em> d'équation cartésienne unique.</p>
+    <p>• <strong>Plan</strong> dans l'espace : <span class="hl">équation cartésienne</span> \(ax+by+cz+d=0\) OU représentation paramétrique (2 paramètres \(s,t\)).</p>
+    <p style="margin:0">• <strong>Droite</strong> = intersection de deux plans : définie par un système de 2 équations cartésiennes.</p>
+  </div>
+</section>
+
+<!-- ══════════ 02 DROITES ══════════ -->
+<section id="droites">
+  <div class="sec-hd"><span class="sec-num">02</span><h2>Représentation paramétrique d'une droite</h2></div>
+
+  <h3>Définition et construction</h3>
+  <div class="block def" data-label="Définition">
+    La <strong>représentation paramétrique</strong> de la droite passant par \(A(x_0;y_0;z_0)\) de vecteur directeur \(\vec{d}=\begin{pmatrix}a\\b\\c\end{pmatrix}\) (\(\vec{d}\neq\vec{0}\)) est :
+    \[\begin{cases}x = x_0 + at\\y = y_0 + bt\\z = z_0 + ct\end{cases}\quad t\in\mathbb{R}\]
+  </div>
+
+  <div class="block thm" data-label="Droite définie par deux points">
+    La droite \((AB)\) a pour vecteur directeur \(\overrightarrow{AB}=\begin{pmatrix}x_B-x_A\\y_B-y_A\\z_B-z_A\end{pmatrix}\) et pour représentation :
+    \[\begin{cases}x = x_A + (x_B-x_A)t\\y = y_A + (y_B-y_A)t\\z = z_A + (z_B-z_A)t\end{cases}\]
+    Pour \(t=0\) on obtient \(A\), pour \(t=1\) on obtient \(B\).
+  </div>
+
+  <h3>Équation cartésienne d'une droite du plan (\(\mathbb{R}^2\)) — rappel</h3>
+  <div class="block thm" data-label="Dans le plan uniquement">
+    Dans le plan, une droite de vecteur directeur \(\vec{d}=(a;b)\) admet l'équation cartésienne \(bx - ay + k = 0\) (vecteur normal \(\vec{n}=(-b;a)\)). <strong>Dans l'espace (\(\mathbb{R}^3\)), une droite n'a pas d'équation cartésienne unique</strong> — elle est définie comme intersection de deux plans.
+  </div>
+
+  <h3>Droite comme intersection de deux plans</h3>
+  <div class="block def" data-label="Représentation cartésienne d'une droite">
+    Une droite de l'espace peut s'écrire comme système de deux équations de plans non parallèles :
+    \[\mathcal{D} : \begin{cases}a_1x+b_1y+c_1z+d_1=0\\\,a_2x+b_2y+c_2z+d_2=0\end{cases}\]
+    Cette description est équivalente à la représentation paramétrique (on peut passer de l'une à l'autre).
+  </div>
+
+  <details>
+    <summary>Comment obtenir une représentation paramétrique depuis deux équations de plans ?</summary>
+    <div class="proof-body">
+      <strong>Méthode :</strong><br>
+      1. Choisir une variable "libre" (par exemple poser \(z=t\)).<br>
+      2. Substituer dans le système des deux équations — on obtient un système 2×2 en \(x\) et \(y\).<br>
+      3. Résoudre ce système pour exprimer \(x(t)\) et \(y(t)\).<br><br>
+      <strong>Exemple :</strong> \(\mathcal{D}:\begin{cases}x+y-z-1=0\\2x-y+z+2=0\end{cases}\)<br>
+      Poser \(z=t\) : \(x+y=1+t\) et \(2x-y=-2-t\). Sommer : \(3x=-1\), donc \(x=-\frac{1}{3}\). Hmm — ici les deux plans ne contiennent pas de variable libre simple ; on peut aussi résoudre par substitution.<br>
+      En résolvant : \(x=\frac{-1+0\cdot t}{3}\)… (on paramètre complètement selon la valeur de \(t\)).
+    </div>
+  </details>
+
+  <h3>Générateur — représentation paramétrique</h3>
+  <div class="calc">
+    <div class="calc-title">Droite par deux points A et B</div>
+    <div class="controls">
+      <label>\(A\): \(x\)=<input type="number" id="dr-ax" value="1" oninput="calcDroite()"></label>
+      <label>\(y\)=<input type="number" id="dr-ay" value="2" oninput="calcDroite()"></label>
+      <label>\(z\)=<input type="number" id="dr-az" value="-1" oninput="calcDroite()"></label>
+    </div>
+    <div class="controls">
+      <label>\(B\): \(x\)=<input type="number" id="dr-bx" value="4" oninput="calcDroite()"></label>
+      <label>\(y\)=<input type="number" id="dr-by" value="0" oninput="calcDroite()"></label>
+      <label>\(z\)=<input type="number" id="dr-bz" value="3" oninput="calcDroite()"></label>
+    </div>
+    <div class="result-box" id="droite-res"></div>
+  </div>
+
+  <h3>Testeur — un point appartient-il à la droite ?</h3>
+  <div class="calc">
+    <div class="calc-title">Appartenance d'un point M à la droite \((A + t\vec{d})\)</div>
+    <div class="controls">
+      <label>\(A\): <input type="number" id="ap-ax" value="1" oninput="calcAppart()">,</label>
+      <label><input type="number" id="ap-ay" value="2" oninput="calcAppart()">,</label>
+      <label><input type="number" id="ap-az" value="0" oninput="calcAppart()"></label>
+    </div>
+    <div class="controls">
+      <label>\(\vec{d}\): <input type="number" id="ap-da" value="2" oninput="calcAppart()">,</label>
+      <label><input type="number" id="ap-db" value="1" oninput="calcAppart()">,</label>
+      <label><input type="number" id="ap-dc" value="3" oninput="calcAppart()"></label>
+    </div>
+    <div class="controls">
+      <label>\(M\): <input type="number" id="ap-mx" value="3" oninput="calcAppart()">,</label>
+      <label><input type="number" id="ap-my" value="3" oninput="calcAppart()">,</label>
+      <label><input type="number" id="ap-mz" value="3" oninput="calcAppart()"></label>
+    </div>
+    <div class="result-box" id="appart-res"></div>
+  </div>
+</section>
+
+<!-- ══════════ 03 PLANS ══════════ -->
+<section id="plans">
+  <div class="sec-hd"><span class="sec-num">03</span><h2>Équations cartésiennes et représentations paramétriques des plans</h2></div>
+
+  <h3>Équation cartésienne</h3>
+  <div class="block def" data-label="Définition">
+    Un plan de l'espace admet toujours une <strong>équation cartésienne</strong> de la forme :
+    \[ax + by + cz + d = 0 \quad \text{avec } (a,b,c)\neq(0,0,0)\]
+    Le vecteur \(\vec{n}=\begin{pmatrix}a\\b\\c\end{pmatrix}\) est le <strong>vecteur normal</strong> au plan.
+  </div>
+
+  <h3>Représentation paramétrique d'un plan</h3>
+  <div class="block def" data-label="Définition">
+    Un plan passant par \(A(x_0;y_0;z_0)\) et de vecteurs directeurs non colinéaires \(\vec{u}=\begin{pmatrix}a\\b\\c\end{pmatrix}\) et \(\vec{v}=\begin{pmatrix}a'\\b'\\c'\end{pmatrix}\) a pour représentation paramétrique :
+    \[\begin{cases}x = x_0 + as + a't\\y = y_0 + bs + b't\\z = z_0 + cs + c't\end{cases}\quad (s,t)\in\mathbb{R}^2\]
+  </div>
+
+  <h3>Testeur — appartenance à un plan</h3>
+  <div class="calc">
+    <div class="calc-title">Le point M appartient-il au plan \(ax+by+cz+d=0\) ?</div>
+    <div class="controls">
+      <label>Plan: \(a\)=<input type="number" id="pa-a" value="2" oninput="calcPlanApp()"></label>
+      <label>\(b\)=<input type="number" id="pa-b" value="-1" oninput="calcPlanApp()"></label>
+      <label>\(c\)=<input type="number" id="pa-c" value="3" oninput="calcPlanApp()"></label>
+      <label>\(d\)=<input type="number" id="pa-d" value="-7" oninput="calcPlanApp()"></label>
+    </div>
+    <div class="controls">
+      <label>\(M\): \(x\)=<input type="number" id="pa-x" value="1" oninput="calcPlanApp()"></label>
+      <label>\(y\)=<input type="number" id="pa-y" value="2" oninput="calcPlanApp()"></label>
+      <label>\(z\)=<input type="number" id="pa-z" value="1" oninput="calcPlanApp()"></label>
+    </div>
+    <div class="result-box" id="planapp-res"></div>
+  </div>
+</section>
+
+<!-- ══════════ 04 CONVERSIONS ══════════ -->
+<section id="conversions">
+  <div class="sec-hd"><span class="sec-num">04</span><h2>Conversions entre représentations</h2></div>
+
+  <h3>Repr. paramétrique → équation cartésienne (plan)</h3>
+  <div class="block thm" data-label="Méthode">
+    Données : un point \(A\) et deux vecteurs directeurs \(\vec{u}, \vec{v}\).<br><br>
+    <strong>Étape 1 :</strong> Calculer un vecteur normal \(\vec{n} = \vec{u}\wedge\vec{v}\) (produit vectoriel).<br>
+    <strong>Étape 2 :</strong> L'équation est \(\vec{n}\cdot\overrightarrow{AM}=0\), soit \(a(x-x_0)+b(y-y_0)+c(z-z_0)=0\).
+  </div>
+
+  <div class="block def" data-label="Produit vectoriel — formule coordonnées">
+    Pour \(\vec{u}=\begin{pmatrix}u_1\\u_2\\u_3\end{pmatrix}\) et \(\vec{v}=\begin{pmatrix}v_1\\v_2\\v_3\end{pmatrix}\) :
+    \[\vec{u}\wedge\vec{v} = \begin{pmatrix}u_2v_3-u_3v_2\\u_3v_1-u_1v_3\\u_1v_2-u_2v_1\end{pmatrix}\]
+    Ce vecteur est perpendiculaire à la fois à \(\vec{u}\) et à \(\vec{v}\), donc normal au plan qu'ils engendrent.
+  </div>
+
+  <details>
+    <summary>Démonstration — \(\vec{u}\wedge\vec{v}\) est bien normal au plan</summary>
+    <div class="proof-body">
+      On vérifie que \((\vec{u}\wedge\vec{v})\cdot\vec{u}=0\) :<br>
+      \((u_2v_3-u_3v_2)u_1+(u_3v_1-u_1v_3)u_2+(u_1v_2-u_2v_1)u_3\)<br>
+      \(= u_1u_2v_3-u_1u_3v_2+u_2u_3v_1-u_1u_2v_3+u_1u_3v_2-u_2u_3v_1 = 0\). \(\blacksquare\)<br><br>
+      De même \((\vec{u}\wedge\vec{v})\cdot\vec{v}=0\). Donc \(\vec{u}\wedge\vec{v}\) est orthogonal à \(\vec{u}\) et \(\vec{v}\), c'est bien un vecteur normal au plan.
+    </div>
+  </details>
+
+  <h3>Équation cartésienne → représentation paramétrique (plan)</h3>
+  <div class="block thm" data-label="Méthode">
+    Donnée : \(ax+by+cz+d=0\).<br><br>
+    <strong>Étape 1 :</strong> Trouver un point particulier \(A\) du plan (ex. poser deux coordonnées à 0 et résoudre pour la troisième, si le coefficient correspondant est non nul).<br>
+    <strong>Étape 2 :</strong> Trouver deux vecteurs \(\vec{u}, \vec{v}\) orthogonaux à \(\vec{n}=(a;b;c)\), non colinéaires entre eux.<br>
+    <strong>Étape 3 :</strong> Écrire la représentation paramétrique avec \(A, \vec{u}, \vec{v}\).
+  </div>
+
+  <details>
+    <summary>Exemple complet — aller-retour entre les deux formes</summary>
+    <div class="proof-body">
+      <strong>Plan \(\mathcal{P}: 2x-y+3z-6=0\).</strong><br><br>
+      <u>Point particulier</u> : poser \(y=z=0\) → \(2x=6\) → \(A=(3;0;0)\).<br><br>
+      <u>Vecteurs directeurs</u> orthogonaux à \(\vec{n}=(2;-1;3)\) :<br>
+      \(\vec{u}=(1;2;0)\) car \(2\times1+(-1)\times2+3\times0=0\). ✓<br>
+      \(\vec{v}=(3;0;-2)\) car \(2\times3+(-1)\times0+3\times(-2)=0\). ✓<br><br>
+      Représentation paramétrique :
+      \[\begin{cases}x=3+s+3t\\y=2s\\z=-2t\end{cases}\]
+      <u>Vérification retour</u> : \(2(3+s+3t)-(2s)+3(-2t)=6+2s+6t-2s-6t=6\). ✓
+    </div>
+  </details>
+
+  <h3>Calculateur — produit vectoriel et équation de plan</h3>
+  <div class="calc">
+    <div class="calc-title">Plan par \(A\), dirigé par \(\vec{u}\) et \(\vec{v}\) → équation cartésienne</div>
+    <div class="controls">
+      <label>\(A\): <input type="number" id="cv-ax" value="1" oninput="calcConv()">,</label>
+      <label><input type="number" id="cv-ay" value="0" oninput="calcConv()">,</label>
+      <label><input type="number" id="cv-az" value="2" oninput="calcConv()"></label>
+    </div>
+    <div class="controls">
+      <label>\(\vec{u}\): <input type="number" id="cv-u1" value="1" oninput="calcConv()">,</label>
+      <label><input type="number" id="cv-u2" value="2" oninput="calcConv()">,</label>
+      <label><input type="number" id="cv-u3" value="0" oninput="calcConv()"></label>
+    </div>
+    <div class="controls">
+      <label>\(\vec{v}\): <input type="number" id="cv-v1" value="0" oninput="calcConv()">,</label>
+      <label><input type="number" id="cv-v2" value="1" oninput="calcConv()">,</label>
+      <label><input type="number" id="cv-v3" value="3" oninput="calcConv()"></label>
+    </div>
+    <div class="result-box" id="conv-res"></div>
+  </div>
+</section>
+
+<!-- ══════════ 05 POSITIONS RELATIVES ══════════ -->
+<section id="positions">
+  <div class="sec-hd"><span class="sec-num">05</span><h2>Positions relatives — méthodes algébriques</h2></div>
+
+  <h3>Deux plans</h3>
+  <div class="block def" data-label="Méthode systématique">
+    <p>\(\mathcal{P}_1: a_1x+b_1y+c_1z+d_1=0\) et \(\mathcal{P}_2: a_2x+b_2y+c_2z+d_2=0\).</p>
+    <p>• <strong>Normales colinéaires</strong> (\(\vec{n}_1 \parallel \vec{n}_2\)) et équations proportionnelles : plans <strong>confondus</strong>.</p>
+    <p>• <strong>Normales colinéaires</strong> et équations non proportionnelles : plans <strong>parallèles</strong>.</p>
+    <p style="margin:0">• <strong>Normales non colinéaires</strong> : plans <strong>sécants</strong> selon une droite — résoudre le système.</p>
+  </div>
+
+  <h3>Droite et plan</h3>
+  <div class="block def" data-label="Algorithme">
+    Droite \(\mathcal{D}: (x_0+at, y_0+bt, z_0+ct)\) et plan \(\mathcal{P}: \alpha x+\beta y+\gamma z+\delta=0\).<br><br>
+    Substituer dans l'équation du plan : \(\alpha(x_0+at)+\beta(y_0+bt)+\gamma(z_0+ct)+\delta=0\).<br>
+    Soit \(k = \alpha a+\beta b+\gamma c\) (produit scalaire \(\vec{d}\cdot\vec{n}\)) :<br>
+    <ul style="margin:0.5rem 0 0 1.3rem">
+      <li>Si \(k\neq 0\) : un unique \(t^*\) → <strong>point d'intersection</strong> \(I\).</li>
+      <li>Si \(k=0\) et \(\alpha x_0+\beta y_0+\gamma z_0+\delta=0\) : droite <strong>incluse</strong> dans le plan.</li>
+      <li>Si \(k=0\) et \(\alpha x_0+\beta y_0+\gamma z_0+\delta\neq 0\) : droite <strong>parallèle</strong> au plan.</li>
+    </ul>
+  </div>
+
+  <h3>Deux droites</h3>
+  <div class="block def" data-label="Quatre cas">
+    Droites \(\mathcal{D}_1: A+t\vec{d}_1\) et \(\mathcal{D}_2: B+s\vec{d}_2\).<br><br>
+    Système à résoudre : \(A+t\vec{d}_1 = B+s\vec{d}_2\) (3 équations, 2 inconnues \(t, s\)).<br>
+    <ul style="margin:0.5rem 0 0 1.3rem">
+      <li>\(\vec{d}_1\) et \(\vec{d}_2\) colinéaires et \(\overrightarrow{AB}\) colinéaire à \(\vec{d}_1\) : <strong>confondues</strong>.</li>
+      <li>\(\vec{d}_1\) et \(\vec{d}_2\) colinéaires, \(\overrightarrow{AB}\) non colinéaire : <strong>parallèles</strong>.</li>
+      <li>Système compatible : solution unique \((t^*,s^*)\) : <strong>sécantes</strong>.</li>
+      <li>Système incompatible : <strong>gauches</strong> (ni parallèles ni sécantes).</li>
+    </ul>
+  </div>
+
+  <!-- VISUALISEUR 3D positions relatives -->
+  <div class="viz-wrap">
+    <div class="viz-bar">
+      <span>🖱 Glisser pour pivoter — positions relatives de deux droites</span>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+        <button class="btn-v on"  id="bv-sect"  onclick="setDrMode('secantes')">Sécantes</button>
+        <button class="btn-v"     id="bv-paral" onclick="setDrMode('paralleles')">Parallèles</button>
+        <button class="btn-v"     id="bv-gauch" onclick="setDrMode('gauches')">Gauches</button>
+        <button class="btn-v"     onclick="resetViz()">↺</button>
+      </div>
+    </div>
+    <canvas id="canvas-dr" width="880" height="310"></canvas>
+  </div>
+
+  <h3>Calculateur — intersection droite/plan</h3>
+  <div class="calc">
+    <div class="calc-title">Intersection de \(\mathcal{D}:(A+t\vec{d})\) avec le plan \(ax+by+cz+d=0\)</div>
+    <div class="controls">
+      <label>\(A\): <input type="number" id="ip-ax" value="1"  oninput="calcIntersect()">,</label>
+      <label><input type="number" id="ip-ay" value="0"  oninput="calcIntersect()">,</label>
+      <label><input type="number" id="ip-az" value="2"  oninput="calcIntersect()"></label>
+    </div>
+    <div class="controls">
+      <label>\(\vec{d}\): <input type="number" id="ip-da" value="1"  oninput="calcIntersect()">,</label>
+      <label><input type="number" id="ip-db" value="2"  oninput="calcIntersect()">,</label>
+      <label><input type="number" id="ip-dc" value="-1" oninput="calcIntersect()"></label>
+    </div>
+    <div class="controls">
+      <label>Plan: \(a\)=<input type="number" id="ip-a" value="2"  oninput="calcIntersect()"></label>
+      <label>\(b\)=<input type="number" id="ip-b" value="-1" oninput="calcIntersect()"></label>
+      <label>\(c\)=<input type="number" id="ip-c" value="1"  oninput="calcIntersect()"></label>
+      <label>\(d\)=<input type="number" id="ip-d" value="-3" oninput="calcIntersect()"></label>
+    </div>
+    <div class="result-box" id="intersect-res"></div>
+  </div>
+
+  <h3>Calculateur — position de deux plans</h3>
+  <div class="calc">
+    <div class="calc-title">Positions relatives de \(\mathcal{P}_1\) et \(\mathcal{P}_2\)</div>
+    <div class="controls">
+      <label>\(\mathcal{P}_1\): \(a\)=<input type="number" id="pp-a1" value="1"  oninput="calcDeuxPlans()"></label>
+      <label>\(b\)=<input type="number" id="pp-b1" value="2"  oninput="calcDeuxPlans()"></label>
+      <label>\(c\)=<input type="number" id="pp-c1" value="-1" oninput="calcDeuxPlans()"></label>
+      <label>\(d\)=<input type="number" id="pp-d1" value="3"  oninput="calcDeuxPlans()"></label>
+    </div>
+    <div class="controls">
+      <label>\(\mathcal{P}_2\): \(a\)=<input type="number" id="pp-a2" value="2"  oninput="calcDeuxPlans()"></label>
+      <label>\(b\)=<input type="number" id="pp-b2" value="1"  oninput="calcDeuxPlans()"></label>
+      <label>\(c\)=<input type="number" id="pp-c2" value="3"  oninput="calcDeuxPlans()"></label>
+      <label>\(d\)=<input type="number" id="pp-d2" value="-1" oninput="calcDeuxPlans()"></label>
+    </div>
+    <div class="result-box" id="deuxplans-res"></div>
+  </div>
+</section>
+
+<!-- ══════════ 06 ANGLES ══════════ -->
+<section id="angles">
+  <div class="sec-hd"><span class="sec-num">06</span><h2>Angles en géométrie de l'espace</h2></div>
+
+  <h3>Angle entre deux droites</h3>
+  <div class="block thm" data-label="Formule">
+    L'angle \(\theta\) entre deux droites de vecteurs directeurs \(\vec{d}_1\) et \(\vec{d}_2\) est défini par \(\theta\in[0°;90°]\) :
+    \[\cos\theta = \frac{|\vec{d}_1\cdot\vec{d}_2|}{\|\vec{d}_1\|\cdot\|\vec{d}_2\|}\]
+    La valeur absolue garantit que \(\theta\in[0°,90°]\) (on prend l'angle aigu).
+  </div>
+
+  <h3>Angle entre une droite et un plan</h3>
+  <div class="block thm" data-label="Formule">
+    L'angle \(\varphi\) entre une droite (vecteur directeur \(\vec{d}\)) et un plan (normale \(\vec{n}\)) est le complémentaire de l'angle entre \(\vec{d}\) et \(\vec{n}\) :
+    \[\sin\varphi = \frac{|\vec{d}\cdot\vec{n}|}{\|\vec{d}\|\cdot\|\vec{n}\|}\]
+    On a \(\varphi\in[0°;90°]\). Si \(\varphi=90°\), la droite est perpendiculaire au plan.
+  </div>
+
+  <details>
+    <summary>Pourquoi sin et non cos ?</summary>
+    <div class="proof-body">
+      L'angle entre \(\vec{d}\) et \(\vec{n}\) (vecteur normal) est \(\alpha\), avec \(\cos\alpha = \frac{|\vec{d}\cdot\vec{n}|}{\|\vec{d}\|\|\vec{n}\|}\).<br>
+      L'angle \(\varphi\) entre la droite et le plan est le complémentaire : \(\varphi = 90°-\alpha\).<br>
+      Donc \(\sin\varphi = \sin(90°-\alpha) = \cos\alpha = \frac{|\vec{d}\cdot\vec{n}|}{\|\vec{d}\|\|\vec{n}\|}\). \(\blacksquare\)
+    </div>
+  </details>
+
+  <h3>Angle entre deux plans</h3>
+  <div class="block thm" data-label="Formule">
+    L'angle \(\psi\) entre deux plans de normales \(\vec{n}_1\) et \(\vec{n}_2\) est :
+    \[\cos\psi = \frac{|\vec{n}_1\cdot\vec{n}_2|}{\|\vec{n}_1\|\cdot\|\vec{n}_2\|}\]
+    L'angle dièdre \(\psi\in[0°;90°]\) est également l'angle entre les deux normales (ou son supplément).
+  </div>
+
+  <div class="tbl-w">
+    <table>
+      <thead><tr><th>Situation</th><th>Formule</th><th>Vecteurs impliqués</th></tr></thead>
+      <tbody>
+        <tr><td>Angle droite/droite</td><td>\(\cos\theta=\dfrac{|\vec{d}_1\cdot\vec{d}_2|}{\|\vec{d}_1\|\|\vec{d}_2\|}\)</td><td>Directeurs \(\vec{d}_1, \vec{d}_2\)</td></tr>
+        <tr><td>Angle droite/plan</td><td>\(\sin\varphi=\dfrac{|\vec{d}\cdot\vec{n}|}{\|\vec{d}\|\|\vec{n}\|}\)</td><td>Directeur \(\vec{d}\), normal \(\vec{n}\)</td></tr>
+        <tr><td>Angle plan/plan</td><td>\(\cos\psi=\dfrac{|\vec{n}_1\cdot\vec{n}_2|}{\|\vec{n}_1\|\|\vec{n}_2\|}\)</td><td>Normaux \(\vec{n}_1, \vec{n}_2\)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Calculateur d'angles</h3>
+  <div class="calc">
+    <div class="calc-title">Angle entre deux objets géométriques</div>
+    <div class="controls">
+      <label>Type :
+        <select id="ang-type" onchange="calcAngle()">
+          <option value="dd">Droite / Droite</option>
+          <option value="dp">Droite / Plan</option>
+          <option value="pp">Plan / Plan</option>
+        </select>
+      </label>
+    </div>
+    <div class="controls">
+      <label>Vec. 1 / Normale 1 : <input type="number" id="ang-a1" value="1" oninput="calcAngle()">,</label>
+      <label><input type="number" id="ang-b1" value="2" oninput="calcAngle()">,</label>
+      <label><input type="number" id="ang-c1" value="2" oninput="calcAngle()"></label>
+    </div>
+    <div class="controls">
+      <label>Vec. 2 / Normale 2 : <input type="number" id="ang-a2" value="3" oninput="calcAngle()">,</label>
+      <label><input type="number" id="ang-b2" value="-1" oninput="calcAngle()">,</label>
+      <label><input type="number" id="ang-c2" value="0" oninput="calcAngle()"></label>
+    </div>
+    <div class="result-box" id="angle-res"></div>
+  </div>
+</section>
+
+<!-- ══════════ 07 DÉMONSTRATIONS ══════════ -->
+<section id="demo">
+  <div class="sec-hd"><span class="sec-num">07</span><h2>Démonstrations exemplaires du programme</h2></div>
+
+  <h3>Démo 1 — Le produit vectoriel est normal au plan</h3>
+  <div class="block demo" data-label="Démonstration">
+    <strong>Énoncé :</strong> Si \(\vec{n}=\vec{u}\wedge\vec{v}\) avec \(\vec{u}=(u_1,u_2,u_3)\), \(\vec{v}=(v_1,v_2,v_3)\), alors \(\vec{n}\perp\vec{u}\) et \(\vec{n}\perp\vec{v}\).<br><br>
+    \(\vec{n}\cdot\vec{u} = (u_2v_3-u_3v_2)u_1+(u_3v_1-u_1v_3)u_2+(u_1v_2-u_2v_1)u_3\)<br>
+    \(= u_1u_2v_3\!-\!u_1u_3v_2\!+\!u_2u_3v_1\!-\!u_1u_2v_3\!+\!u_1u_3v_2\!-\!u_2u_3v_1 = 0\). \(\blacksquare\)<br><br>
+    Le calcul analogue donne \(\vec{n}\cdot\vec{v}=0\). Donc \(\vec{n}=\vec{u}\wedge\vec{v}\) est bien perpendiculaire aux deux vecteurs du plan.
+  </div>
+
+  <h3>Démo 2 — Angle droite/plan : formule avec sin</h3>
+  <div class="block demo" data-label="Démonstration">
+    Notons \(\alpha\) l'angle entre \(\vec{d}\) et \(\vec{n}\). L'angle \(\varphi\) entre la droite et le plan est tel que \(\varphi+\alpha=90°\) (lorsque la droite « tombe » sur le plan, l'angle avec la normale est le complémentaire de l'angle avec le plan).<br><br>
+    Donc \(\sin\varphi = \cos\alpha = \dfrac{|\vec{d}\cdot\vec{n}|}{\|\vec{d}\|\|\vec{n}\|}\). \(\blacksquare\)<br><br>
+    <em>Cas limites :</em> si \(\vec{d}\cdot\vec{n}=0\), \(\varphi=0°\) (droite parallèle au plan) ; si \(\vec{d}\parallel\vec{n}\), \(\varphi=90°\) (droite perpendiculaire au plan).
+  </div>
+
+  <h3>Démo 3 — Unicité de l'équation cartésienne d'un plan (à un facteur près)</h3>
+  <div class="block demo" data-label="Démonstration">
+    Si \(ax+by+cz+d=0\) et \(a'x+b'y+c'z+d'=0\) définissent le même plan, ils ont le même vecteur normal, donc \((a,b,c)=\lambda(a',b',c')\) pour un certain \(\lambda\neq 0\). Substituant un point \(A\) du plan : \(ax_A+by_A+cz_A+d=0\) et \(a'x_A+b'y_A+c'z_A+d'=0\), ce qui donne \(d=\lambda d'\). Donc les deux équations sont proportionnelles. \(\blacksquare\)
+  </div>
+
+  <h3>Démo 4 — Critère des droites gauches</h3>
+  <div class="block demo" data-label="Démonstration">
+    Deux droites \(\mathcal{D}_1: A+t\vec{d}_1\) et \(\mathcal{D}_2: B+s\vec{d}_2\) sont gauches si et seulement si le système \(A+t\vec{d}_1=B+s\vec{d}_2\) est incompatible ET \(\vec{d}_1\) et \(\vec{d}_2\) ne sont pas colinéaires.<br><br>
+    Ce système s'écrit : \(t\vec{d}_1-s\vec{d}_2=\overrightarrow{AB}\), soit 3 équations en 2 inconnues. Il est incompatible ssi le vecteur \(\overrightarrow{AB}\) n'appartient pas au plan engendré par \(\vec{d}_1\) et \(\vec{d}_2\), c'est-à-dire ssi \(\overrightarrow{AB}\), \(\vec{d}_1\), \(\vec{d}_2\) ne sont pas coplanaires. \(\blacksquare\)
+  </div>
+</section>
+
+<!-- ══════════ 08 PYTHON ══════════ -->
+<section id="python">
+  <div class="sec-hd"><span class="sec-num">08</span><h2>Algorithmes Python</h2></div>
+
+  <!-- PY 1 -->
+  <div class="py-block" id="py1">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">representations_parametriques.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py1')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py1')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py1')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py1-code">import math
+
+def droite_par_deux_points(A, B):
+    """Représentation paramétrique de la droite (AB)."""
+    d = tuple(B[i]-A[i] for i in range(3))
+    print(f"Droite (AB) avec A={A}, B={B} :")
+    print(f"  Vecteur directeur AB = {d}")
+    print(f"  Représentation paramétrique :")
+    for i, (coord, var, comp) in enumerate(zip(A, 'xyz', d)):
+        sign = '+' if comp >= 0 else '-'
+        print(f"    {var} = {coord} {sign} {abs(comp)}t")
+    print()
+    return A, d
+
+def point_sur_droite(M, A, d, eps=1e-9):
+    """Teste si M appartient à la droite (A + t*d)."""
+    ts = []
+    for i in range(3):
+        if abs(d[i]) > eps:
+            ts.append((M[i]-A[i]) / d[i])
+    if not ts:
+        return False, None
+    t0 = ts[0]
+    for t in ts[1:]:
+        if abs(t - t0) > eps:
+            return False, None
+    # Vérifier que le point reconstruit correspond à M
+    pt = tuple(A[i]+t0*d[i] for i in range(3))
+    ok = all(abs(pt[i]-M[i]) < eps for i in range(3))
+    return ok, t0
+
+def eq_plan_par_point_et_normale(A, n):
+    """Équation cartésienne du plan passant par A de normale n."""
+    a, b, c = n
+    d = -(a*A[0]+b*A[1]+c*A[2])
+    return (a, b, c, d)
+
+# ── Tests ──────────────────────────────────────────────
+A = (1, 2, -1)
+B = (4, 0, 3)
+droite_par_deux_points(A, B)
+
+print("=== Appartenance ===")
+# M = A + 2*(B-A)
+M_oui = tuple(A[i]+2*(B[i]-A[i]) for i in range(3))
+M_non = (0, 0, 0)
+d_vec = tuple(B[i]-A[i] for i in range(3))
+ok, t = point_sur_droite(M_oui, A, d_vec)
+print(f"M={M_oui} sur droite ? {ok} (t={t})")
+ok2, _ = point_sur_droite(M_non, A, d_vec)
+print(f"M={M_non} sur droite ? {ok2}")
+print()
+
+print("=== Équation de plan ===")
+cases = [((0,0,1), (1,0,0)), ((1,1,2), (2,-1,3)), ((0,0,0), (1,1,1))]
+for pt, n in cases:
+    a,b,c,dd = eq_plan_par_point_et_normale(pt, n)
+    termes = []
+    for coef, var in [(a,'x'),(b,'y'),(c,'z')]:
+        if coef == 0: continue
+        s = '+' if coef > 0 and termes else ''
+        termes.append(f"{s}{coef}{var}")
+    eq = "".join(termes)
+    if dd > 0: eq += f"+{dd}"
+    elif dd < 0: eq += f"{dd}"
+    print(f"  Point {pt}, normale {n} : {eq} = 0")</textarea>
+    <div class="py-out" id="py1-out"></div>
+  </div>
+
+  <!-- PY 2 -->
+  <div class="py-block" id="py2">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">produit_vectoriel_conversion.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py2')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py2')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py2')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py2-code">import math
+
+def cross(u, v):
+    """Produit vectoriel u ∧ v."""
+    return (
+        u[1]*v[2] - u[2]*v[1],
+        u[2]*v[0] - u[0]*v[2],
+        u[0]*v[1] - u[1]*v[0]
+    )
+
+def dot(u, v):
+    return sum(u[i]*v[i] for i in range(3))
+
+def norm(u):
+    return math.sqrt(dot(u, u))
+
+def plan_param_to_cartesien(A, u, v):
+    """
+    Convertit la repr. paramétrique d'un plan (A, u, v) en équation cartésienne.
+    Calcule la normale n = u ∧ v, puis ax+by+cz+d=0.
+    """
+    n = cross(u, v)
+    if all(abs(c) < 1e-9 for c in n):
+        return None, "u et v sont colinéaires — pas un plan"
+    a, b, c = n
+    d = -(a*A[0]+b*A[1]+c*A[2])
+    return (a, b, c, d), f"{a}x + {b}y + {c}z + {d} = 0"
+
+def verifier_vecteurs_dans_plan(u, v, n, eps=1e-9):
+    """Vérifie que u et v sont bien orthogonaux à n."""
+    return abs(dot(u, n)) < eps and abs(dot(v, n)) < eps
+
+# ── Tests ──────────────────────────────────────────────
+print("=== Produit vectoriel ===")
+cas = [
+    ((1,0,0), (0,1,0), "i ∧ j"),
+    ((1,2,0), (0,1,3), "test"),
+    ((2,-1,3), (1,0,2), "test 2"),
+]
+for u, v, label in cas:
+    n = cross(u, v)
+    print(f"  {label}: {u} ∧ {v} = {n}")
+    print(f"    Vérif n⊥u: {dot(n,u)}, n⊥v: {dot(n,v)}")
+
+print()
+print("=== Conversion repr. paramétrique → éq. cartésienne ===")
+exemples = [
+    ((1,0,0), (1,0,1), (0,1,0)),   # plan passant par (1,0,0), dirs (1,0,1) et (0,1,0)
+    ((0,0,1), (1,2,0), (0,1,3)),   # autre cas
+    ((2,1,0), (1,-1,2), (3,0,-1)), # cas général
+]
+for A, u, v in exemples:
+    coefs, eq_str = plan_param_to_cartesien(A, u, v)
+    if coefs:
+        a,b,c,d = coefs
+        n = (a,b,c)
+        ok_u = verifier_vecteurs_dans_plan(u, v, n)
+        print(f"  A={A}, u={u}, v={v}")
+        print(f"  Équation : {eq_str}")
+        print(f"  Vecteurs directeurs ⊥ normale ✓: {ok_u}")
+    else:
+        print(f"  ERREUR : {eq_str}")</textarea>
+    <div class="py-out" id="py2-out"></div>
+  </div>
+
+  <!-- PY 3 -->
+  <div class="py-block" id="py3">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">positions_relatives.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py3')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py3')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py3')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py3-code">import math
+
+EPS = 1e-9
+
+def dot(u, v): return sum(u[i]*v[i] for i in range(3))
+def norm(u): return math.sqrt(dot(u, u))
+def cross(u, v):
+    return (u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0])
+def collineaire(u, v): return norm(cross(u, v)) < EPS
+
+def position_droite_plan(A, dv, a, b, c, d):
+    """Positions relatives droite / plan."""
+    k = a*dv[0]+b*dv[1]+c*dv[2]  # d⃗·n⃗
+    val = a*A[0]+b*A[1]+c*A[2]+d
+    if abs(k) > EPS:
+        t = -val / k
+        I = tuple(A[i]+t*dv[i] for i in range(3))
+        return f"Sécants en I=({I[0]:.3f};{I[1]:.3f};{I[2]:.3f}), t={t:.3f}"
+    else:
+        return "Incluse dans le plan" if abs(val) < EPS else "Parallèle (disjointe)"
+
+def position_deux_plans(a1,b1,c1,d1, a2,b2,c2,d2):
+    """Positions relatives de deux plans."""
+    n1, n2 = (a1,b1,c1), (a2,b2,c2)
+    if collineaire(n1, n2):
+        # Vérifier si confondus : trouver un point de P1 dans P2
+        if abs(a1) > EPS: pt = (-d1/a1, 0, 0)
+        elif abs(b1) > EPS: pt = (0, -d1/b1, 0)
+        else: pt = (0, 0, -d1/c1)
+        return "Confondus" if abs(a2*pt[0]+b2*pt[1]+c2*pt[2]+d2) < EPS else "Parallèles"
+    return "Sécants (droite d'intersection)"
+
+def position_deux_droites(A, d1v, B, d2v):
+    """Positions relatives de deux droites."""
+    if collineaire(d1v, d2v):
+        AB = tuple(B[i]-A[i] for i in range(3))
+        return "Confondues" if collineaire(d1v, AB) else "Parallèles"
+    # Résoudre A+t*d1 = B+s*d2 → système 3x2
+    # Utiliser les deux premières équations pour t, s
+    # x: A[0]+t*d1v[0]=B[0]+s*d2v[0]
+    # y: A[1]+t*d1v[1]=B[1]+s*d2v[1]
+    det = d1v[0]*(-d2v[1]) - d1v[1]*(-d2v[0])
+    if abs(det) < EPS:
+        return "Gauches (système dégénéré)"
+    dx = B[0]-A[0]; dy = B[1]-A[1]
+    t = (dx*(-d2v[1])-dy*(-d2v[0])) / det
+    s = (d1v[0]*dy - d1v[1]*dx) / det
+    # Vérifier la 3e équation
+    lhs = A[2]+t*d1v[2]
+    rhs = B[2]+s*d2v[2]
+    if abs(lhs-rhs) < EPS:
+        I = tuple(A[i]+t*d1v[i] for i in range(3))
+        return f"Sécantes en I=({I[0]:.3f};{I[1]:.3f};{I[2]:.3f})"
+    return f"Gauches (3e éq. non vérifiée: {lhs:.4f}≠{rhs:.4f})"
+
+# ── Tests ──────────────────────────────────────────────
+print("=== Droite / Plan ===")
+print(position_droite_plan((1,0,2),(1,2,-1), 2,-1,1,-3))
+print(position_droite_plan((0,0,1),(1,-1,0), 1,1,0,-1))
+print()
+
+print("=== Deux plans ===")
+print(position_deux_plans(1,2,-1,3, 2,4,-2,6))   # parallèles
+print(position_deux_plans(1,2,-1,3, 2,4,-2,5))   # confondus?
+print(position_deux_plans(1,0,0,-1, 0,1,0,-2))   # sécants
+print()
+
+print("=== Deux droites ===")
+print(position_deux_droites((0,0,0),(1,0,0), (0,1,0),(0,0,1)))  # gauches
+print(position_deux_droites((0,0,0),(1,1,0), (1,0,0),(0,1,0)))  # sécantes ?
+print(position_deux_droites((0,0,0),(1,0,0), (0,1,0),(1,0,0)))  # parallèles</textarea>
+    <div class="py-out" id="py3-out"></div>
+  </div>
+
+  <!-- PY 4 -->
+  <div class="py-block" id="py4">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">angles_geometrie_espace.py</span><span class="py-badge">Programme officiel</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py4')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py4')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py4')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py4-code">import math
+
+def dot(u, v): return sum(u[i]*v[i] for i in range(3))
+def norm(u): return math.sqrt(dot(u, u))
+
+def angle_deux_droites(d1, d2):
+    """Angle (en degrés) entre deux droites de directions d1, d2. Résultat ∈ [0°,90°]."""
+    cos_a = abs(dot(d1, d2)) / (norm(d1) * norm(d2))
+    cos_a = min(1.0, cos_a)
+    return math.degrees(math.acos(cos_a))
+
+def angle_droite_plan(d, n):
+    """Angle (en degrés) entre une droite (dir. d) et un plan (normale n). Résultat ∈ [0°,90°]."""
+    sin_a = abs(dot(d, n)) / (norm(d) * norm(n))
+    sin_a = min(1.0, sin_a)
+    return math.degrees(math.asin(sin_a))
+
+def angle_deux_plans(n1, n2):
+    """Angle (en degrés) entre deux plans de normales n1, n2. Résultat ∈ [0°,90°]."""
+    cos_a = abs(dot(n1, n2)) / (norm(n1) * norm(n2))
+    cos_a = min(1.0, cos_a)
+    return math.degrees(math.acos(cos_a))
+
+# ── Tests ──────────────────────────────────────────────
+print("=== Angles entre droites ===")
+exemples_dd = [
+    ((1,0,0),(0,1,0),"axes x et y → 90°"),
+    ((1,0,0),(1,0,0),"même direction → 0°"),
+    ((1,1,0),(1,-1,0),"diagonales → 90°"),
+    ((1,2,2),(3,-1,0),"cas général"),
+]
+for d1, d2, label in exemples_dd:
+    print(f"  {label}: θ = {angle_deux_droites(d1,d2):.2f}°")
+
+print()
+print("=== Angle droite / plan ===")
+exemples_dp = [
+    ((0,0,1),(0,0,1),"droite ⊥ plan xOy → 90°"),
+    ((1,0,0),(0,0,1),"droite ∥ plan xOy → 0°"),
+    ((1,1,1),(0,0,1),"diagonale espace / plan xOy"),
+]
+for d, n, label in exemples_dp:
+    print(f"  {label}: φ = {angle_droite_plan(d,n):.2f}°")
+
+print()
+print("=== Angle entre plans ===")
+exemples_pp = [
+    ((1,0,0),(0,1,0),"plans yOz et xOz → 90°"),
+    ((1,0,0),(1,0,0),"plans parallèles → 0°"),
+    ((1,1,0),(0,0,1),"plan xOy et z=0 → ?"),
+    ((1,2,-1),(2,1,3),"cas général"),
+]
+for n1, n2, label in exemples_pp:
+    print(f"  {label}: ψ = {angle_deux_plans(n1,n2):.2f}°")</textarea>
+    <div class="py-out" id="py4-out"></div>
+  </div>
+
+  <!-- PY 5 bac à sable -->
+  <div class="py-block" id="py5">
+    <div class="py-hd">
+      <div style="display:flex;align-items:center">
+        <div class="py-dots"><div class="py-dot r"></div><div class="py-dot y"></div><div class="py-dot g"></div></div>
+        <div class="py-meta"><span class="py-title">bac_a_sable.py</span><span class="py-badge">Libre</span></div>
+      </div>
+      <div class="py-acts">
+        <button class="btn-run" onclick="runPy('py5')">▶ Exécuter</button>
+        <button class="btn-dl"  onclick="dlPy('py5')">⬇ .py</button>
+        <button class="btn-rst" onclick="rstPy('py5')">↺</button>
+      </div>
+    </div>
+    <textarea class="py-code" id="py5-code">import math
+
+# ── Zone libre — problème complet ─────────────────────
+# Données : cube ABCDEFGH de côté 1
+# A=(0,0,0), B=(1,0,0), C=(1,1,0), D=(0,1,0)
+# E=(0,0,1), F=(1,0,1), G=(1,1,1), H=(0,1,1)
+
+def dot(u,v): return sum(a*b for a,b in zip(u,v))
+def norm(u): return math.sqrt(dot(u,u))
+def vect(A,B): return tuple(B[i]-A[i] for i in range(3))
+def cross(u,v): return (u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])
+
+A=(0,0,0);B=(1,0,0);C=(1,1,0);D=(0,1,0)
+E=(0,0,1);F=(1,0,1);G=(1,1,1);H=(0,1,1)
+
+print("=== Cube unité ABCDEFGH ===")
+
+# 1. Droite (AG)
+AG = vect(A, G)
+print(f"Diagonale AG : vecteur {AG}")
+print(f"Repr. param. : x=t, y=t, z=t  (t∈R)")
+
+# 2. Angle de AG avec la base ABCD (plan z=0, normale (0,0,1))
+n_base = (0,0,1)
+sin_phi = abs(dot(AG,n_base))/(norm(AG)*norm(n_base))
+phi = math.degrees(math.asin(min(1.0,sin_phi)))
+print(f"\nAngle de AG avec la base : φ = arcsin({sin_phi:.4f}) = {phi:.2f}°")
+print(f"(Théorique : arctan(√2) = {math.degrees(math.atan(math.sqrt(2))):.2f}°... non, arcsin(1/√3)={math.degrees(math.asin(1/math.sqrt(3))):.2f}°)")
+
+# 3. Plan de la diagonale ABGH
+AB = vect(A,B); AH = vect(A,H)
+n_plan = cross(AB, AH)
+d_plan = -(n_plan[0]*A[0]+n_plan[1]*A[1]+n_plan[2]*A[2])
+print(f"\nPlan ABGH : normale {n_plan}, équation {n_plan}·r + {d_plan} = 0")
+# Vérifier que tous les points sont dans ce plan
+for nom, pt in [('A',A),('B',B),('G',G),('H',H)]:
+    val = sum(n_plan[i]*pt[i] for i in range(3))+d_plan
+    print(f"  {nom}={pt} dans le plan ? val={val:.4f}")
+</textarea>
+    <div class="py-out" id="py5-out"></div>
+  </div>
+</section>
+
+<!-- ══════════ 09 QCM ══════════ -->
+<section id="qcm">
+  <div class="sec-hd"><span class="sec-num">09</span><h2>QCM interactif</h2></div>
+
+  <div class="qcm-top">
+    <div class="chrono">
+      <span style="font-size:0.75rem;color:var(--ink3)">⏱</span>
+      <span class="chrono-d" id="c-disp">00:00</span>
+      <button class="btn-s" onclick="toggleC()" id="btn-c" style="padding:0.25rem 0.6rem;font-size:0.7rem;">Pause</button>
+      <button class="btn-s" onclick="resetC()"  style="padding:0.25rem 0.6rem;font-size:0.7rem;">↺</button>
+    </div>
+    <div><span style="font-size:0.82rem;color:var(--ink3)">Score : </span><span class="score-v" id="sc-v">0 / 0</span></div>
+  </div>
+
+  <div id="qcm-c"></div>
+
+  <div class="qcm-acts">
+    <button class="btn-p" onclick="submitQCM()">Valider le QCM</button>
+    <button class="btn-s" onclick="newQCM()">↺ Nouveau QCM</button>
+  </div>
+
+  <div class="qcm-res" id="qcm-r">
+    <div class="res-sc" id="r-sc"></div>
+    <div class="res-msg" id="r-msg"></div>
+    <br>
+    <button class="btn-p" onclick="newQCM()">↺ Nouveau QCM</button>
+  </div>
+</section>
+
+<!-- ══════════ 10 CONTACT ══════════ -->
+<section id="contact">
+  <div class="sec-hd"><span class="sec-num">10</span><h2>Prendre rendez-vous</h2></div>
+
+  <div class="cg">
+    <a class="cc" href="https://docs.google.com/forms/d/e/1FAIpQLSfiOvJG1wicFQY8EQufqy5YxGgTPSFPxdyb-OAtk95SUGxWFA/viewform" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=c8744a&bgcolor=242830&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfiOvJG1wicFQY8EQufqy5YxGgTPSFPxdyb-OAtk95SUGxWFA%2Fviewform" alt="QR Formulaire">
+      <div class="cc-t">📋 Formulaire de retour</div>
+      <div class="cc-s">Avis, erreur ou question</div>
+      <span class="cc-l">Google Forms ↗</span>
+    </a>
+    <a class="cc" href="https://calendly.com/didaskalosmanthanon/30min" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=4db6ac&bgcolor=242830&data=https%3A%2F%2Fcalendly.com%2Fdidaskalosmanthanon%2F30min" alt="QR Élèves">
+      <div class="cc-t">🎓 Élèves — 30 min</div>
+      <div class="cc-s">Créneau individuel de soutien</div>
+      <span class="cc-l">Calendly ↗</span>
+    </a>
+    <a class="cc" href="https://calendly.com/didaskalosmanthanon/appel-pro-formation-ou-collaboration-45-min" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=d4a840&bgcolor=242830&data=https%3A%2F%2Fcalendly.com%2Fdidaskalosmanthanon%2Fappel-pro-formation-ou-collaboration-45-min" alt="QR Prof">
+      <div class="cc-t">🏫 Professeurs — 45 min</div>
+      <div class="cc-s">Formation, collaboration</div>
+      <span class="cc-l">Calendly ↗</span>
+    </a>
+    <a class="cc" href="https://calendly.com/didaskalosmanthanon/point-parents-presentation-de-l-outil-15-min" target="_blank" rel="noopener">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=c0403a&bgcolor=242830&data=https%3A%2F%2Fcalendly.com%2Fdidaskalosmanthanon%2Fpoint-parents-presentation-de-l-outil-15-min" alt="QR Parents">
+      <div class="cc-t">👨‍👩‍👧 Parents — 15 min</div>
+      <div class="cc-s">Présentation &amp; suivi</div>
+      <span class="cc-l">Calendly ↗</span>
+    </a>
+  </div>
+
+  <p style="text-align:center;margin-top:2rem;font-size:0.78rem;color:var(--ink3);font-style:italic;">
+    Terminale · Spécialité Mathématiques ·
+    <a href="https://eduscol.education.gouv.fr/sites/default/files/document/spe246annexe1158907pdf-84159.pdf"
+       target="_blank" style="color:var(--copper);text-decoration:none;">Programme officiel Éduscol</a>
+    — Représentations paramétriques &amp; Équations cartésiennes (p. 9)
+  </p>
+</section>
+</main>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+// ── UTILS ──────────────────────────────────────
+const R4 = v => Math.round(v*10000)/10000;
+const fN  = v => v < 0 ? `(${v})` : `${v}`;
+const fSq = v => v < 0 ? `(${v})^2` : `${v}^2`;
+function dot3(u,v){ return u[0]*v[0]+u[1]*v[1]+u[2]*v[2]; }
+function norm3(u){ return Math.sqrt(dot3(u,u)); }
+function cross3(u,v){ return [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]]; }
+function collinear3(u,v){ const c=cross3(u,v); return norm3(c)<1e-9; }
+
+// ── CALCULATEURS ──────────────────────────────────────
+function calcDroite(){
+  const ax=+document.getElementById('dr-ax').value, ay=+document.getElementById('dr-ay').value, az=+document.getElementById('dr-az').value;
+  const bx=+document.getElementById('dr-bx').value, by=+document.getElementById('dr-by').value, bz=+document.getElementById('dr-bz').value;
+  const dx=bx-ax, dy=by-ay, dz=bz-az;
+  const el=document.getElementById('droite-res');
+  const mkTerm=(v0,dv,v)=>`${v0} ${dv>=0?'+':'-'} ${Math.abs(dv)}t`;
+  el.innerHTML = `\\(\\overrightarrow{AB}=\\begin{pmatrix}${dx}\\\\${dy}\\\\${dz}\\end{pmatrix}\\) — \\(\\begin{cases}x=${mkTerm(ax,dx,'x')}\\\\y=${mkTerm(ay,dy,'y')}\\\\z=${mkTerm(az,dz,'z')}\\end{cases},\\ t\\in\\mathbb{R}\\)`;
+  if(window.MathJax) MathJax.typeset([el]);
+}
+calcDroite();
+
+function calcAppart(){
+  const ax=+document.getElementById('ap-ax').value,ay=+document.getElementById('ap-ay').value,az=+document.getElementById('ap-az').value;
+  const da=+document.getElementById('ap-da').value,db=+document.getElementById('ap-db').value,dc=+document.getElementById('ap-dc').value;
+  const mx=+document.getElementById('ap-mx').value,my=+document.getElementById('ap-my').value,mz=+document.getElementById('ap-mz').value;
+  const el=document.getElementById('appart-res');
+  const d=[da,db,dc], A=[ax,ay,az], M=[mx,my,mz];
+  const ts=[];
+  for(let i=0;i<3;i++){ if(Math.abs(d[i])>1e-9) ts.push({i, t:(M[i]-A[i])/d[i]}); }
+  if(!ts.length){ el.textContent='Vecteur directeur nul'; return; }
+  const t0=ts[0].t;
+  const consistent = ts.every(({t})=>Math.abs(t-t0)<1e-9);
+  if(consistent){
+    el.innerHTML=`\\(M\\in\\mathcal{D}\\) pour \\(t=${R4(t0)}\\) ✓`;
+  } else {
+    const details=ts.map(({i,t})=>`t_{${['x','y','z'][i]}}=${R4(t)}`).join(',\\;');
+    el.innerHTML=`\\(M\\notin\\mathcal{D}\\) — valeurs de \\(t\\) incohérentes : \\(${details}\\)`;
+  }
+  if(window.MathJax) MathJax.typeset([el]);
+}
+calcAppart();
+
+function calcPlanApp(){
+  const a=+document.getElementById('pa-a').value, b=+document.getElementById('pa-b').value,
+        c=+document.getElementById('pa-c').value, d=+document.getElementById('pa-d').value;
+  const x=+document.getElementById('pa-x').value, y=+document.getElementById('pa-y').value, z=+document.getElementById('pa-z').value;
+  const val=a*x+b*y+c*z+d;
+  const el=document.getElementById('planapp-res');
+  const terms=[[a,'x'],[b,'y'],[c,'z']].map(([co,v])=>`${fN(co)}\\times ${fN(v)}`).join('+')+`+(${d})`;
+  el.innerHTML=`\\(${a}\\times${fN(x)}+${b}\\times${fN(y)}+${c}\\times${fN(z)}+${d}=${val}\\) — `
+    +(Math.abs(val)<1e-9 ? `<strong style="color:var(--teal)">M appartient au plan ✓</strong>` : `<em style="color:var(--rust)">M n'appartient pas au plan (valeur = ${val})</em>`);
+  if(window.MathJax) MathJax.typeset([el]);
+}
+calcPlanApp();
+
+function calcConv(){
+  const ax=+document.getElementById('cv-ax').value,ay=+document.getElementById('cv-ay').value,az=+document.getElementById('cv-az').value;
+  const u1=+document.getElementById('cv-u1').value,u2=+document.getElementById('cv-u2').value,u3=+document.getElementById('cv-u3').value;
+  const v1=+document.getElementById('cv-v1').value,v2=+document.getElementById('cv-v2').value,v3=+document.getElementById('cv-v3').value;
+  const u=[u1,u2,u3], v=[v1,v2,v3];
+  const n=cross3(u,v);
+  const el=document.getElementById('conv-res');
+  if(norm3(n)<1e-9){ el.textContent='⚠ u et v sont colinéaires — ils ne définissent pas un plan.'; return; }
+  const [a,b,c]=n;
+  const d=-(a*ax+b*ay+c*az);
+  // Build equation string
+  let eq='';
+  [[a,'x'],[b,'y'],[c,'z']].forEach(([co,va],i)=>{
+    if(co===0) return;
+    if(eq&&co>0) eq+='+';
+    if(co===-1) eq+='-'; else if(co!==1) eq+=co;
+    eq+=va;
+  });
+  if(d>0) eq+=`+${d}`; else if(d<0) eq+=`${d}`;
+  el.innerHTML=`\\(\\vec{u}\\wedge\\vec{v}=\\begin{pmatrix}${a}\\\\${b}\\\\${c}\\end{pmatrix}\\) — Équation : \\(${eq}=0\\)`;
+  if(window.MathJax) MathJax.typeset([el]);
+}
+calcConv();
+
+function calcIntersect(){
+  const ax=+document.getElementById('ip-ax').value,ay=+document.getElementById('ip-ay').value,az=+document.getElementById('ip-az').value;
+  const da=+document.getElementById('ip-da').value,db=+document.getElementById('ip-db').value,dc=+document.getElementById('ip-dc').value;
+  const a=+document.getElementById('ip-a').value, b=+document.getElementById('ip-b').value,
+        c=+document.getElementById('ip-c').value, d=+document.getElementById('ip-d').value;
+  const k=a*da+b*db+c*dc;
+  const val=a*ax+b*ay+c*az+d;
+  const el=document.getElementById('intersect-res');
+  if(Math.abs(k)>1e-9){
+    const t=-val/k;
+    const Ix=ax+t*da,Iy=ay+t*db,Iz=az+t*dc;
+    el.innerHTML=`\\(\\vec{d}\\cdot\\vec{n}=${k}\\neq 0\\) — Intersection en \\(I=(${R4(Ix)};${R4(Iy)};${R4(Iz)})\\) pour \\(t^*=${R4(t)}\\)`;
+  } else {
+    const msg=Math.abs(val)<1e-9?`<strong style="color:var(--teal)">Droite incluse dans le plan</strong>`:`<em style="color:var(--rust)">Droite parallèle (disjointe)</em>`;
+    el.innerHTML=`\\(\\vec{d}\\cdot\\vec{n}=0\\) — ${msg}`;
+  }
+  if(window.MathJax) MathJax.typeset([el]);
+}
+calcIntersect();
+
+function calcDeuxPlans(){
+  const a1=+document.getElementById('pp-a1').value,b1=+document.getElementById('pp-b1').value,
+        c1=+document.getElementById('pp-c1').value,d1=+document.getElementById('pp-d1').value;
+  const a2=+document.getElementById('pp-a2').value,b2=+document.getElementById('pp-b2').value,
+        c2=+document.getElementById('pp-c2').value,d2=+document.getElementById('pp-d2').value;
+  const n1=[a1,b1,c1], n2=[a2,b2,c2];
+  const el=document.getElementById('deuxplans-res');
+  if(collinear3(n1,n2)){
+    // Trouver un point de P1
+    let pt;
+    if(Math.abs(a1)>1e-9) pt=[-d1/a1,0,0];
+    else if(Math.abs(b1)>1e-9) pt=[0,-d1/b1,0];
+    else pt=[0,0,-d1/c1];
+    const inP2=Math.abs(a2*pt[0]+b2*pt[1]+c2*pt[2]+d2)<1e-9;
+    el.innerHTML=inP2
+      ? `\\(\\vec{n}_1\\parallel\\vec{n}_2\\) et point de \\(\\mathcal{P}_1\\in\\mathcal{P}_2\\) → <strong style="color:var(--teal)">Plans confondus</strong>`
+      : `\\(\\vec{n}_1\\parallel\\vec{n}_2\\) mais plans distincts → <em style="color:var(--rust)">Plans parallèles</em>`;
+  } else {
+    const dPS=dot3(n1,n2);
+    const cos_a=Math.abs(dPS)/(norm3(n1)*norm3(n2));
+    const angle=Math.round(Math.acos(Math.min(1,cos_a))*180/Math.PI*100)/100;
+    el.innerHTML=`Normales non colinéaires → <strong style="color:var(--copper2)">Plans sécants</strong> — angle dièdre \\(\\approx${angle}°\\)`;
+  }
+  if(window.MathJax) MathJax.typeset([el]);
+}
+calcDeuxPlans();
+
+function calcAngle(){
+  const type=document.getElementById('ang-type').value;
+  const a1=+document.getElementById('ang-a1').value,b1=+document.getElementById('ang-b1').value,c1=+document.getElementById('ang-c1').value;
+  const a2=+document.getElementById('ang-a2').value,b2=+document.getElementById('ang-b2').value,c2=+document.getElementById('ang-c2').value;
+  const u=[a1,b1,c1], v=[a2,b2,c2];
+  const n1=norm3(u), n2=norm3(v);
+  const el=document.getElementById('angle-res');
+  if(n1<1e-12||n2<1e-12){ el.textContent='Vecteur nul'; return; }
+  const dp=dot3(u,v);
+  let angle, formula, label;
+  if(type==='dd'){
+    angle=Math.acos(Math.min(1,Math.abs(dp)/(n1*n2)))*180/Math.PI;
+    formula=`\\cos\\theta=\\dfrac{|\\vec{d}_1\\cdot\\vec{d}_2|}{\\|\\vec{d}_1\\|\\|\\vec{d}_2\\|}`;
+    label='\\theta';
+  } else if(type==='dp'){
+    angle=Math.asin(Math.min(1,Math.abs(dp)/(n1*n2)))*180/Math.PI;
+    formula=`\\sin\\varphi=\\dfrac{|\\vec{d}\\cdot\\vec{n}|}{\\|\\vec{d}\\|\\|\\vec{n}\\|}`;
+    label='\\varphi';
+  } else {
+    angle=Math.acos(Math.min(1,Math.abs(dp)/(n1*n2)))*180/Math.PI;
+    formula=`\\cos\\psi=\\dfrac{|\\vec{n}_1\\cdot\\vec{n}_2|}{\\|\\vec{n}_1\\|\\|\\vec{n}_2\\|}`;
+    label='\\psi';
+  }
+  el.innerHTML=`\\(${formula}=\\dfrac{|${dp}|}{${R4(n1)}\\times${R4(n2)}}\\) → \\(${label}\\approx${R4(angle)}°\\)`;
+  if(window.MathJax) MathJax.typeset([el]);
+}
+calcAngle();
+
+// ── VISUALISEUR 3D — DROITES ──────────────────────────
+let drMode='secantes', drRotX=0.4, drRotY=0.5, drDrag=false, drLX=0, drLY=0;
+const drCanvas=document.getElementById('canvas-dr');
+const drCtx=drCanvas.getContext('2d');
+drCanvas.onmousedown=e=>{drDrag=true;drLX=e.clientX;drLY=e.clientY;};
+drCanvas.onmousemove=e=>{if(!drDrag)return;drRotY+=(e.clientX-drLX)*0.012;drRotX+=(e.clientY-drLY)*0.012;drLX=e.clientX;drLY=e.clientY;drawDr();};
+drCanvas.onmouseup=drCanvas.onmouseleave=()=>drDrag=false;
+function setDrMode(m){drMode=m;['sect','paral','gauch'].forEach(id=>document.getElementById('bv-'+id).classList.remove('on'));document.getElementById('bv-'+(m==='secantes'?'sect':m==='paralleles'?'paral':'gauch')).classList.add('on');drawDr();}
+function resetViz(){drRotX=0.4;drRotY=0.5;drawDr();}
+
+function proj3D(x,y,z,W,H){
+  const cX=Math.cos(drRotX),sX=Math.sin(drRotX),cY=Math.cos(drRotY),sY=Math.sin(drRotY);
+  const x2=x*cY-z*sY, z2=x*sY+z*cY, y2=y*cX-z2*sX;
+  return [W/2+x2*52, H/2-y2*52];
+}
+
+function drArrow(ctx,x1,y1,z1,x2,y2,z2,col,W,H){
+  const [px1,py1]=proj3D(x1,y1,z1,W,H), [px2,py2]=proj3D(x2,y2,z2,W,H);
+  ctx.strokeStyle=col; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.moveTo(px1,py1); ctx.lineTo(px2,py2); ctx.stroke();
+  const ang=Math.atan2(py2-py1,px2-px1);
+  ctx.fillStyle=col;
+  ctx.beginPath(); ctx.moveTo(px2,py2);
+  ctx.lineTo(px2-9*Math.cos(ang-0.38),py2-9*Math.sin(ang-0.38));
+  ctx.lineTo(px2-9*Math.cos(ang+0.38),py2-9*Math.sin(ang+0.38));
+  ctx.closePath(); ctx.fill();
+}
+function drDot(ctx,x,y,z,col,W,H,lbl){
+  const [px,py]=proj3D(x,y,z,W,H);
+  ctx.fillStyle=col; ctx.beginPath(); ctx.arc(px,py,4,0,2*Math.PI); ctx.fill();
+  if(lbl){ctx.font='bold 12px Inconsolata,monospace'; ctx.fillStyle=col; ctx.fillText(lbl,px+5,py-4);}
+}
+function drLine(ctx,x1,y1,z1,x2,y2,z2,col,W,H,dash=[]){
+  const [px1,py1]=proj3D(x1,y1,z1,W,H),[px2,py2]=proj3D(x2,y2,z2,W,H);
+  ctx.strokeStyle=col; ctx.lineWidth=2; ctx.setLineDash(dash);
+  ctx.beginPath(); ctx.moveTo(px1,py1); ctx.lineTo(px2,py2); ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawDr(){
+  const W=880,H=310, ctx=drCtx;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=var2hex('--bg'); ctx.fillRect(0,0,W,H);
+
+  // Grille légère
+  ctx.strokeStyle='rgba(50,55,74,0.6)'; ctx.lineWidth=0.5;
+  for(let i=-3;i<=3;i++){
+    const [a,b]=proj3D(i,0,-3,W,H),[c,d]=proj3D(i,0,3,W,H);
+    ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke();
+    const [e,f]=proj3D(-3,0,i,W,H),[g,hh]=proj3D(3,0,i,W,H);
+    ctx.beginPath();ctx.moveTo(e,f);ctx.lineTo(g,hh);ctx.stroke();
+  }
+
+  // Axes
+  drArrow(ctx,-2.5,0,0,2.5,0,0,'#c0403a',W,H);
+  drArrow(ctx,0,-2.5,0,0,2.5,0,'#4db6ac',W,H);
+  drArrow(ctx,0,0,-2.5,0,0,2.5,'#9c7de0',W,H);
+  ctx.font='12px Inconsolata,monospace';
+  [['x',2.6,0,0,'#c0403a'],['y',0,2.6,0,'#4db6ac'],['z',0,0,2.6,'#9c7de0']].forEach(([l,x,y,z,c])=>{
+    const [px,py]=proj3D(x,y,z,W,H);
+    ctx.fillStyle=c; ctx.fillText(l,px+3,py-3);
+  });
+
+  // Droites selon le mode
+  if(drMode==='secantes'){
+    drLine(ctx,-2,-1,0,2,1,0,'#e8a080',W,H);
+    drLine(ctx,0,-1,-2,0,1,2,'#4db6ac',W,H);
+    drDot(ctx,0,0,0,'#d4a840',W,H,'I');
+    ctx.font='11px Inconsolata,monospace'; ctx.fillStyle='#a8a49c';
+    ctx.fillText('Droites sécantes — point d\'intersection I',14,H-12);
+  } else if(drMode==='paralleles'){
+    drLine(ctx,-2,0.5,-1,2,0.5,1,'#e8a080',W,H);
+    drLine(ctx,-2,-0.5,-1,2,-0.5,1,'#4db6ac',W,H);
+    drLine(ctx,-1,0.5,-0.5,-1,-0.5,-0.5,'#5a5862',W,H,[4,4]);
+    ctx.font='11px Inconsolata,monospace'; ctx.fillStyle='#a8a49c';
+    ctx.fillText('Droites parallèles — même direction, pas de point commun',14,H-12);
+  } else {
+    drLine(ctx,-2,0,-2,2,0,2,'#e8a080',W,H);
+    drLine(ctx,-2,1.5,0,2,-1.5,0,'#4db6ac',W,H);
+    ctx.font='11px Inconsolata,monospace'; ctx.fillStyle='#a8a49c';
+    ctx.fillText('Droites gauches — non coplanaires, non parallèles, sans point commun',14,H-12);
+  }
+}
+function var2hex(name){ const s=getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return s||'#191c22'; }
+drawDr();
+
+// ── PYODIDE ──────────────────────────────────────
+let pyodide=null, pyoLoading=false;
+const origCodes={};
+document.querySelectorAll('.py-code').forEach(ta=>{ origCodes[ta.id]=ta.value; });
+async function loadPyo(){
+  if(pyodide) return true; if(pyoLoading) return false; pyoLoading=true;
+  const st=document.getElementById('py-status'); st.textContent='⏳ Chargement Python…';
+  try{
+    const s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js';
+    document.head.appendChild(s); await new Promise((res,rej)=>{s.onload=res;s.onerror=rej;});
+    pyodide=await window.loadPyodide();
+    st.textContent='✓ Python prêt'; st.classList.add('ready'); setTimeout(()=>st.classList.add('hidden'),3000); return true;
+  }catch(e){st.textContent='✗ Erreur Python'; return false;}
+}
+async function runPy(id){
+  const code=document.getElementById(id+'-code').value;
+  const out=document.getElementById(id+'-out');
+  out.className='py-out active'; out.textContent='⏳ Exécution…'; out.style.color='#888';
+  const ok=await loadPyo();
+  if(!ok){out.className='py-out active error';out.textContent='Python non disponible.';return;}
+  try{
+    let stdout=''; pyodide.setStdout({batched:s=>stdout+=s+'\n'});
+    await pyodide.runPythonAsync(code);
+    out.className='py-out active'; out.style.color='#a6e3a1'; out.textContent=stdout||'(aucune sortie)';
+  }catch(e){out.className='py-out active error';out.textContent='⚠ '+e.message;}
+}
+function dlPy(id){
+  const code=document.getElementById(id+'-code').value;
+  const fname=document.getElementById(id+'-code').closest('.py-block').querySelector('.py-title').textContent.trim();
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([code],{type:'text/plain'})); a.download=fname; a.click();
+}
+function rstPy(id){
+  document.getElementById(id+'-code').value=origCodes[id+'-code'];
+  const out=document.getElementById(id+'-out'); out.className='py-out'; out.textContent='';
+}
+
+// ── QCM ──────────────────────────────────────────────
+const allQ=[
+  {q:"La droite passant par \\(A(1;2;3)\\) et \\(B(3;4;5)\\) a pour vecteur directeur :",
+   opts:["\\((1;2;3)\\)","\\((3;4;5)\\)","\\((2;2;2)\\)","\\((4;6;8)\\)"],ans:2,
+   exp:"\\(\\overrightarrow{AB}=(3-1;4-2;5-3)=(2;2;2)\\)."},
+  {q:"Un plan de l'espace peut se définir par :",
+   opts:["Une équation cartésienne unique","Deux équations cartésiennes","Une représentation paramétrique avec 1 paramètre","Uniquement via un vecteur normal"],ans:0,
+   exp:"Un plan admet une équation cartésienne \\(ax+by+cz+d=0\\) (unique à facteur multiplicatif près). La représentation paramétrique utilise 2 paramètres."},
+  {q:"Pour obtenir l'équation cartésienne d'un plan défini par un point et deux vecteurs directeurs, on calcule :",
+   opts:["La somme des vecteurs","Le produit scalaire des deux vecteurs","Le produit vectoriel des deux vecteurs directeurs","La moyenne des coordonnées"],ans:2,
+   exp:"\\(\\vec{n}=\\vec{u}\\wedge\\vec{v}\\) est normal au plan. L'équation est ensuite \\(\\vec{n}\\cdot\\overrightarrow{AM}=0\\)."},
+  {q:"L'angle entre deux droites est toujours dans l'intervalle :",
+   opts:["\\([0°;180°]\\)","\\([0°;360°]\\)","\\([0°;90°]\\)","\\(]-90°;90°[\\)"],ans:2,
+   exp:"On prend la valeur absolue du cosinus pour obtenir l'angle aigu : \\(\\theta\\in[0°;90°]\\)."},
+  {q:"Pour calculer l'angle entre une droite (vecteur \\(\\vec{d}\\)) et un plan (normale \\(\\vec{n}\\)), on utilise :",
+   opts:["\\(\\cos\\varphi=\\dfrac{|\\vec{d}\\cdot\\vec{n}|}{\\|\\vec{d}\\|\\|\\vec{n}\\|}\\)","\\(\\sin\\varphi=\\dfrac{|\\vec{d}\\cdot\\vec{n}|}{\\|\\vec{d}\\|\\|\\vec{n}\\|}\\)","\\(\\tan\\varphi=\\dfrac{\\|\\vec{d}\\|}{\\|\\vec{n}\\|}\\)","\\(\\cos\\varphi=\\dfrac{\\vec{d}\\cdot\\vec{n}}{\\|\\vec{d}\\|}\\)"],ans:1,
+   exp:"L'angle droite/plan est le complément de l'angle entre \\(\\vec{d}\\) et \\(\\vec{n}\\), donc on utilise \\(\\sin\\varphi\\)."},
+  {q:"Deux droites gauches sont :",
+   opts:["Parallèles et non coplanaires","Non coplanaires et non parallèles","Sécantes mais non perpendiculaires","Confondues mais distinctes"],ans:1,
+   exp:"Des droites gauches sont non coplanaires (pas dans le même plan) et non parallèles — situation spécifique à l'espace 3D."},
+  {q:"Le produit vectoriel \\(\\vec{u}\\wedge\\vec{v}\\) est :",
+   opts:["Un scalaire","Un vecteur parallèle à \\(\\vec{u}\\) et \\(\\vec{v}\\)","Un vecteur perpendiculaire à \\(\\vec{u}\\) et \\(\\vec{v}\\)","Le produit scalaire multiplié par 2"],ans:2,
+   exp:"\\(\\vec{u}\\wedge\\vec{v}\\perp\\vec{u}\\) et \\(\\vec{u}\\wedge\\vec{v}\\perp\\vec{v}\\) — c'est un vecteur normal au plan engendré par \\(\\vec{u}\\) et \\(\\vec{v}\\)."},
+  {q:"Pour tester si la droite \\(\\mathcal{D}:(A+t\\vec{d})\\) est parallèle au plan \\(\\mathcal{P}\\) (normale \\(\\vec{n}\\)), on vérifie :",
+   opts:["\\(\\vec{d}\\cdot\\vec{n}\\neq 0\\)","\\(\\vec{d}\\cdot\\vec{n}=0\\) ET \\(A\\notin\\mathcal{P}\\)","\\(\\|\\vec{d}\\|=\\|\\vec{n}\\|\\)","\\(\\vec{d}=\\vec{n}\\)"],ans:1,
+   exp:"Parallèle = perpendiculaire à la normale (\\(\\vec{d}\\cdot\\vec{n}=0\\)) ET le point \\(A\\) n'est pas dans le plan."},
+  {q:"Si le point \\(M(2;1;0)\\) doit appartenir au plan \\(x+y+z+d=0\\), alors \\(d\\) vaut :",
+   opts:["\\(3\\)","\\(-3\\)","\\(0\\)","\\(1\\)"],ans:1,
+   exp:"\\(1\\times2+1\\times1+1\\times0+d=0 \\Rightarrow 3+d=0 \\Rightarrow d=-3\\)."},
+  {q:"Deux plans \\(\\mathcal{P}_1:x+2y-z=3\\) et \\(\\mathcal{P}_2:2x+4y-2z=5\\) sont :",
+   opts:["Confondus","Sécants","Parallèles et distincts","Perpendiculaires"],ans:2,
+   exp:"\\(\\vec{n}_2=2\\vec{n}_1\\), donc normales colinéaires. Mais \\(3/1\\neq 5/2\\), donc plans distincts → parallèles."},
+  {q:"La représentation paramétrique d'une droite dans \\(\\mathbb{R}^3\\) utilise combien de paramètres ?",
+   opts:["0","1","2","3"],ans:1,
+   exp:"Une droite est une variété de dimension 1, décrite par un seul paramètre \\(t\\in\\mathbb{R}\\)."},
+  {q:"L'angle entre les plans \\(z=0\\) et \\(x=0\\) vaut :",
+   opts:["\\(0°\\)","\\(45°\\)","\\(90°\\)","\\(60°\\)"],ans:2,
+   exp:"Normales : \\(\\vec{n}_1=(0,0,1)\\) et \\(\\vec{n}_2=(1,0,0)\\). \\(\\vec{n}_1\\cdot\\vec{n}_2=0\\) → angle \\(=90°\\)."},
+];
+
+let curQ=[],answered={},cSecs=0,cPaused=false,cIntv=null;
+function shuf(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function pad2(n){return String(n).padStart(2,'0');}
+
+function newQCM(){
+  answered={};curQ=shuf(allQ).slice(0,8);
+  document.getElementById('qcm-r').classList.remove('active');
+  document.getElementById('sc-v').textContent='0 / 0';
+  resetC(); startC(); renderQ();
+}
+function renderQ(){
+  const c=document.getElementById('qcm-c');
+  c.innerHTML=curQ.map((q,qi)=>`
+    <div class="qcm-q" id="qq-${qi}">
+      <div class="qcm-question">${qi+1}. ${q.q}</div>
+      <div class="qcm-opts">
+        ${q.opts.map((o,oi)=>`
+          <div class="qcm-opt" id="opt-${qi}-${oi}" onclick="selO(${qi},${oi})">
+            <span class="opt-l">${String.fromCharCode(65+oi)}</span><span>${o}</span>
+          </div>`).join('')}
+      </div>
+      <div class="qcm-fb" id="fb-${qi}"></div>
+    </div>`).join('');
+  if(window.MathJax) MathJax.typeset([c]);
+}
+function selO(qi,oi){
+  if(answered[qi]!==undefined)return;
+  document.querySelectorAll(`#qq-${qi} .qcm-opt`).forEach(e=>e.classList.remove('selected'));
+  document.getElementById(`opt-${qi}-${oi}`).classList.add('selected');
+  answered[qi]=oi;
+}
+function submitQCM(){
+  let sc=0,tot=curQ.length;
+  curQ.forEach((q,qi)=>{
+    const ch=answered[qi];
+    const qEl=document.getElementById(`qq-${qi}`),fb=document.getElementById(`fb-${qi}`);
+    q.opts.forEach((_,oi)=>{
+      const el=document.getElementById(`opt-${qi}-${oi}`);
+      el.classList.add('disabled');
+      if(oi===q.ans) el.classList.add('correct');
+      if(ch===oi&&ch!==q.ans) el.classList.add('wrong');
+    });
+    if(ch===q.ans){sc++;qEl.classList.add('correct');fb.innerHTML=`✓ Correct ! ${q.exp}`;}
+    else{qEl.classList.add('wrong');fb.innerHTML=`✗ ${ch===undefined?'Non répondu. ':''}Réponse : <strong>${q.opts[q.ans]}</strong>. ${q.exp}`;}
+    fb.classList.add('active');
+  });
+  document.getElementById('sc-v').textContent=`${sc} / ${tot}`;
+  const pct=Math.round(sc/tot*100);
+  const msg=pct>=87?'🏆 Maîtrise parfaite !':pct>=62?'👍 Bien ! Quelques points à consolider.':'📚 À retravailler — relisez le cours.';
+  document.getElementById('r-sc').textContent=`${sc} / ${tot} — ${pct} %`;
+  document.getElementById('r-msg').textContent=msg;
+  document.getElementById('qcm-r').classList.add('active');
+  if(window.MathJax) MathJax.typeset([document.getElementById('qcm-r'),document.getElementById('qcm-c')]);
+  stopC();
+}
+function startC(){stopC();cPaused=false;document.getElementById('btn-c').textContent='Pause';cIntv=setInterval(()=>{if(!cPaused){cSecs++;document.getElementById('c-disp').textContent=`${pad2(Math.floor(cSecs/60))}:${pad2(cSecs%60)}`;}},1000);}
+function stopC(){clearInterval(cIntv);cIntv=null;}
+function resetC(){stopC();cSecs=0;cPaused=false;document.getElementById('c-disp').textContent='00:00';document.getElementById('btn-c').textContent='Pause';}
+function toggleC(){cPaused=!cPaused;document.getElementById('btn-c').textContent=cPaused?'Reprendre':'Pause';}
+
+newQCM();
+
+// ── SCROLL REVEAL & NAV ──────────────────────────────
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.07});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+const navLinks=document.querySelectorAll('nav a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  document.querySelectorAll('main section').forEach(s=>{if(window.scrollY>=s.offsetTop-130)cur=s.id;});
+  navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+</script>
+</body>
+</html>
